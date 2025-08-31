@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #6dd5fa, #2980b9);
+      color: #333;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      width: 350px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+    h2 {
+      margin-bottom: 20px;
+      color: #2980b9;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      border: 2px solid #2980b9;
+      border-radius: 8px;
+      outline: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+    input[type="text"]:focus {
+      border-color: #6dd5fa;
+      box-shadow: 0 0 8px rgba(109, 213, 250, 0.6);
+    }
+    button {
+      padding: 12px;
+      background: #2980b9;
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: #1a5f8a;
+      transform: scale(1.05);
+    }
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #f0f9ff;
+      box-shadow: inset 0 0 10px rgba(41, 128, 185, 0.2);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>🌤 Weather App</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="city">Enter City:</label>
+      <input type="text" id="city" name="city" placeholder="e.g. London" required>
+      <button type="submit">Get Weather</button>
+    </form>
+
+    {% if data %}
+      <div class="result">
+    <h2>🌍 Weather in {{ data.city }}</h2>
+    <h2>🌡 Temperature: {{ data.temperature }}</h2>
+    <h2>☁ Condition: {{ data.weather }}</h2>
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>

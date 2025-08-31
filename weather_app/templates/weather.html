@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(-45deg, #74ebd5, #9face6, #6dd5fa, #2980b9);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: #333;
+      padding: 20px;
+    }
+
+    /* Floating cloud effect */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      animation: floatClouds 60s linear infinite;
+      filter: blur(20px);
+    }
+
+    .cloud:nth-child(1) {
+      width: 200px; height: 200px;
+      top: 10%; left: -200px;
+      animation-duration: 80s;
+    }
+    .cloud:nth-child(2) {
+      width: 300px; height: 300px;
+      top: 40%; left: -300px;
+      animation-duration: 100s;
+    }
+    .cloud:nth-child(3) {
+      width: 250px; height: 250px;
+      top: 70%; left: -250px;
+      animation-duration: 120s;
+    }
+
+    @keyframes floatClouds {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(120vw); }
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 25px 20px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2980b9;
+      font-size: 24px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      border: 2px solid #2980b9;
+      border-radius: 10px;
+      outline: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #6dd5fa;
+      box-shadow: 0 0 10px rgba(109, 213, 250, 0.7);
+    }
+
+    button {
+      padding: 12px;
+      background: linear-gradient(135deg, #2980b9, #6dd5fa);
+      border: none;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #2573a6, #5cc3e8);
+      transform: scale(1.05);
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 12px;
+      background: #f0f9ff;
+      box-shadow: inset 0 0 10px rgba(41, 128, 185, 0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .result h2 {
+      font-size: 18px;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating clouds -->
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+  <div class="cloud"></div>
+
+  <div class="container">
+    <h2>🌤 Weather App</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="city">Enter City:</label>
+      <input type="text" id="city" name="city" placeholder="e.g. London, New York" required>
+      <button type="submit">Get Weather</button>
+    </form>
+
+    {% if data %}
+      <div class="result">
+        <h2>🌍 City: {{ data.city }}</h2>
+        <h2>🌡 Temperature: {{ data.temperature }}</h2>
+        <h2>☁ Condition: {{ data.weather }}</h2>
+      </div>
+    {% endif %}
+  </div>
+
+</body>
+</html>
+
